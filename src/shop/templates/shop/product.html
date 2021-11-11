@@ -1,0 +1,92 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+{% load i18n %}
+<div class="container">
+  <h1></h1>
+  <div class="row">
+    {% include 'shop/left.html' %}
+    <div class="col">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'index' %}">Main</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'categories' %}">Categories</a></li>
+          <li class="breadcrumb-item"><a
+              href="{% url 'category' category=product.category.id %}">{{product.category}}</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
+        </ol>
+      </nav>
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <div class="card bg-light mb-3">
+            <div class="card-body">
+              <a href="" data-toggle="modal" data-target="#productModal">
+                <img class="img-fluid" src="{{product.image.url}}" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 add_to_cart_block">
+          <div class="card bg-light mb-3">
+            <div class="card-body">
+              <h1 class="center">{{product.title}}</h1>
+              <p class="price">{{product.price|floatformat}} HUF</p>
+              <form action="" method="post">
+                {% csrf_token %}
+                <button value="reveal" type="submit" class="btn btn-success btn-lg btn-block">REVEAL CONTACTS</button>
+              </form>
+              {% csrf_token %}
+              {% if user.is_authenticated %}
+              {% if is_author %}
+              {% if is_active %}
+              <form action="" method="get">
+                <input type="hidden" name="toggle" value="0" />
+                <button type="submit">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
+                    <label class="custom-control-label" for="customSwitch1">Active</label>
+                  </div>
+                </button>
+              </form>
+              {%else%}
+              <form action="" method="get">
+                <input type="hidden" name="toggle" value="1" />
+                <button type="submit">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                    <label class="custom-control-label" for="customSwitch1">Disabled</label>
+                  </div>
+                </button>
+              </form>
+              {% endif %}
+              <form action="" method="get">
+                <input type="hidden" name="delete" value="1" />
+                <button type="submit">
+                  Delete
+                </button>
+              </form>
+              {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card border-light mb-3">
+            <div class="card-header bg-secondary text-white text-uppercase"><i class="fa fa-align-justify"></i>
+              Description</div>
+            <div class="card-body">
+              <p class="card-text">
+                {{product.text}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+{% endblock %}
