@@ -58,9 +58,11 @@
                 <a class="dropdown-item" href="{% url 'categories' %}">All Categories</a>
               </div>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'my-items' %}">My items</a>
             </li>
+            {% endif %}
           </ul>
           <form class="form-inline my-2 my-lg-0" method="get" action="/search/">
             <div class="input-group input-group-sm">
