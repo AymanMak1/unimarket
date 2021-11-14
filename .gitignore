@@ -2,5 +2,4 @@
 .env
 __pycache__/
 src/media/image/goods/*
-src/shop/templates/registration/
 src/db.sqlite3
