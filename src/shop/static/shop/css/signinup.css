@@ -1,29 +1,3 @@
-<div id="UserForm">
-    <div class="left"></div>
-    <div class="right signin">
-        <div class="form-content">
-            <div class="form-items">
-                <h3>Get more things done by joining us.</h3>
-                <p>Fill all fields so we can get some info about you. We'll never send you spam.</p>
-                <div class="page-links">
-                    <a href="{% url 'login' %}" class="sign-in_btn active">Login</a>
-                    <a href="{% url 'signup' %}" class="register_btn">Register</a>
-                </div>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="ibtn">Log In</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-
-<style>
-
 body{
     font-family: Lato, sans-serif;
     box-sizing: border-box;
@@ -162,8 +136,16 @@ body{
     background-color: rgb(35, 57, 74);
     text-align: left;
 }
-.right.hide{
+.right ul:not(.errorlist){
     display: none;
+}
+
+.right .helptext{
+    display: none;
+}
+.right .hint{
+    font-size: 14px;
+    color:rgb(196, 196, 196);
 }
 .left{
     background: url("../../static/shop/imgs/img2.jpg");
@@ -179,12 +161,3 @@ body{
     background-color: #445867;
     color: #DEDBDB;
 }
-
-</style>
-
-<script>
-    let signInInputs = document.querySelectorAll("#Userform input")
-    signInInputs[1].setAttribute("placeholder","Username")
-    signInInputs[2].setAttribute("placeholder","Password")
-
-</script>
