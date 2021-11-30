@@ -1,3 +1,7 @@
+<!--
+{% load static %}
+<link rel="stylesheet" href="{% static 'shop/css/signinup.css' %}">
+-->
 <div id="UserForm">
     <div class="left"></div>
     <div class="right signin">
@@ -13,11 +17,12 @@
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="ibtn">Log In</button>
+                    <button type="submit" class="ibtn">Sign Up</button>
                 </form>
             </div>
         </div>
     </div>
+
 
 <style>
     body{
@@ -183,9 +188,7 @@
     background-color: #445867;
     color: #DEDBDB;
 }
-</style>
-
-
+</style>    
 <script>
     const usernameInputTitle = `Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.`;
     const pwdInputTitle = `Your password can't be too similar to your other personal information.\nIt must contain at least 8 characters.\nIt can't be a commonly used password and can't be entirely numeric.`;
