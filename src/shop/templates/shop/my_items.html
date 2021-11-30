@@ -13,7 +13,7 @@
     <h1 class="recommend-title">My items</h1>
     <div class="row ">
         {% for product in my_items %}
-        <div class="col-lg-3">
+        <div class="col-lg-3 myitems">
             <img src="{{product.image.url}}" alt="" width="140" height="140">
             <h2>{{product.title}}</h2>
             <p class="price_color">{{product.price}} HUF</p>
@@ -23,5 +23,16 @@
         {% endfor %}
     </div>
 </div>
+
+<style>
+    .myitems{
+      margin-bottom:40px;
+    }
+    .myitems h2, .myitems p{
+      margin-bottom:10px;
+    }
+
+
+</style>
 
 {% endblock %}
