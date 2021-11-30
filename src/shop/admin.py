@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Goods, Carousel
+from .models import Category, Goods, Carousel, Profile
 from django.utils.translation import gettext_lazy as _
 
 
@@ -60,3 +60,4 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Goods, GoodsAdmin)
 admin.site.register(Carousel)
+admin.site.register(Profile)

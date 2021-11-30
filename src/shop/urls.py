@@ -13,6 +13,7 @@ urlpatterns = [
     path("accounts/signup/", views.SignUpView.as_view(), name="signup"),
     path("create_post/", views.create_post, name="create_post"),
     path("my-items/", views.my_items, name="my-items"),
+    path("profile/", views.profile, name = "profile"),
 ]
 
 # for static in dev mod
