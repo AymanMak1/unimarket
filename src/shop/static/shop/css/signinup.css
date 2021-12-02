@@ -1,35 +1,9 @@
-<!--
-{% load static %}
-<link rel="stylesheet" href="{% static 'shop/css/signinup.css' %}">
--->
-<div id="UserForm">
-    <div class="left"></div>
-    <div class="right signin">
-        <div class="form-content">
-            <div class="form-items">
-                <h3>Get more things done by joining us.</h3>
-                <p>Fill all fields so we can get some info about you. We'll never send you spam.<br><br>
-                    <span class="hint">Hover on the input fields for help</span> </p>
-                <div class="page-links">
-                    <a href="{% url 'login' %}" class="sign-in_btn">Login</a>
-                    <a href="{% url 'signup' %}" class="register_btn active">Register</a>
-                </div>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="ibtn">Sign Up</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-<style>
-    body{
+body{
     font-family: Lato, sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    background-color: red !important;
 }
 #Userform{
     display: grid;
@@ -175,7 +149,7 @@
     color:rgb(196, 196, 196);
 }
 .left{
-    background: url("../../static/shop/imgs/img2.jpg");
+    background: url("op/imgs/img2.jpg");
     width: 100%;
     height: 100%;
     background-size: cover;
@@ -188,23 +162,3 @@
     background-color: #445867;
     color: #DEDBDB;
 }
-</style>    
-<script>
-    const usernameInputTitle = `Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.`;
-    const pwdInputTitle = `Your password can't be too similar to your other personal information.\nIt must contain at least 8 characters.\nIt can't be a commonly used password and can't be entirely numeric.`;
-    const cPwdInputTitle = `Enter the same password as before, for verification.`;
-
-
-    let signUpInputs = document.querySelectorAll("#Userform input")
-    signUpInputs[1].setAttribute("placeholder","Username");
-    signUpInputs[1].setAttribute('title',usernameInputTitle);
-
-    signUpInputs[2].setAttribute("placeholder","Password");
-    signUpInputs[2].setAttribute('title',pwdInputTitle);
-
-    signUpInputs[3].setAttribute("placeholder","Confirm Password");
-    signUpInputs[3].setAttribute('title',cPwdInputTitle);
-
-    //
-
-</script>

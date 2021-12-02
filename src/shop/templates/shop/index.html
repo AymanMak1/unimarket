@@ -34,7 +34,7 @@
   <h1 class="recommend-title">LATEST</h1>
   <div class="row ">
     {% for product in top %}
-    <div class="col-lg-3">
+    <div class="col-lg-3 latestProduct">
       <img src="{{product.image.url}}" alt="" width="140" height="140">
       <h2>{{product.title}}</h2>
       <p class="price_color">{{product.price}} HUF</p>
@@ -43,4 +43,14 @@
     {% endfor %}
   </div>
 </div>
+<style>
+    .latestProduct{
+      margin-bottom:40px;
+    }
+    .latestProduct h2, .latestProduct p{
+      margin-bottom:10px;
+    }
+
+
+</style>
 {% endblock %}
