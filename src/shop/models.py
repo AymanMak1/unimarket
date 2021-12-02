@@ -1,9 +1,40 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
-#from tinymce.models import HTMLField
+from mysite.settings import EMAIL_HOST_USER
+
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
+
+import random
+import string
+
+from django.core.mail import send_mail
+
+
+def generate_code(length):
+    result_str = "".join(random.choice(string.ascii_letters) for i in range(length))
+
+    return result_str
+
+
+def send_activation_email(code, email):
+    if email[email.index("@") + 1 :] in [
+        "ppk.elte.hu",
+        "btk.elte.hu",
+        "inf.elte.hu",
+        "ajk.elte.hu",
+        "tok.elte.hu",
+        "ttk.elte.hu",
+        "tatk.elte.hu",
+        "barczi.elte.hu",
+        "student.elte.hu",
+    ]:
+        subject = "Welcome to Unimarket"
+        message = f"Hope you will enjoy our platform!\nActivate your account: http://localhost:8080/profile/activation/?code={code}"
+        send_mail(subject, message, EMAIL_HOST_USER, [email], fail_silently=False)
+        print("OK!")
+
 
 class Category(models.Model):
     title = models.CharField(verbose_name=_("title"), max_length=20)
@@ -53,21 +84,29 @@ class Carousel(models.Model):
     def __str__(self):
         return self.title
 
-class Profile(models.Model):   
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	bio = models.TextField()
-	facebook = models.TextField()
-	phone = models.TextField()
 
-       
-	def __str__(self):
-         return self.user.username
-    
-	@receiver(post_save, sender=User)
-	def create_user_profile(sender, instance, created, **kwargs):
-		if created:
-			Profile.objects.create(user=instance)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField()
+    facebook = models.TextField()
+    phone = models.TextField()
+    code = models.CharField(max_length=255)
 
-	@receiver(post_save, sender=User)
-	def save_user_profile(sender, instance, **kwargs):
-		instance.profile.save()
+    def __str__(self):
+        return self.user.username
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            code = generate_code(255)
+            send_activation_email(code, instance.username)
+            Profile.objects.create(user=instance, code=code)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
+
+    @receiver(pre_save, sender=User)
+    def pre_save_user(sender, instance, **kwargs):
+        if instance.id is None:
+            instance.is_active = False

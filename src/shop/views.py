@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from .models import Category, Goods, Carousel
+from .models import Category, Goods, Carousel, Profile
 from haystack.generic_views import SearchView
 from django.core.mail import send_mail
 from django.utils.translation import gettext as _
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import  UserForm, UpdateProfileForm
+from .forms import UserForm, UpdateProfileForm
 from django.contrib import messages
+
 
 def index(request):
     context = {}
@@ -157,18 +158,36 @@ class SignUpView(generic.CreateView):
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
 
+
 def profile(request):
 
     if request.method == "POST":
         user_form = UserForm(request.POST, instance=request.user)
-        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        profile_form = UpdateProfileForm(
+            request.POST, request.FILES, instance=request.user.profile
+        )
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request,('Your profile was successfully updated!'))
+            messages.success(request, ("Your profile was successfully updated!"))
         else:
-            messages.error(request,('Unable to complete request'))
-        return redirect ("profile")
+            messages.error(request, ("Unable to complete request"))
+        return redirect("profile")
     user_form = UserForm(instance=request.user)
     profile_form = UpdateProfileForm(instance=request.user.profile)
-    return render(request=request, template_name="shop/profile.html", context={"user":request.user, "user_form":user_form, 'profile_form': profile_form})
+    return render(
+        request=request,
+        template_name="shop/profile.html",
+        context={
+            "user": request.user,
+            "user_form": user_form,
+            "profile_form": profile_form,
+        },
+    )
+
+
+def profile_activation(request):
+    user = Profile.objects.get(code=request.GET["code"]).user
+    user.is_active = True
+    user.save()
+    return redirect("/accounts/login/")
