@@ -39,10 +39,11 @@
 				  </button>
 			  </div>
 			  <div class="modal-body">
-				  <form method="post">
+				  <form method="post" id="editProfileForm">
 						{% csrf_token %}
-						{{ user_form }}
-						{{ profile_form }}
+						{{user_form}}
+						{{profile_form}}
+						
 			  </div>
 				<div class="modal-footer">
 					  <button type="submit" class="btn btn-primary">Save changes</button>
@@ -53,4 +54,26 @@
 		</div>
   </div>
 
-	{% endblock %}
+  
+<style>
+	body{
+		font-family: Lato, sans-serif;
+	}
+	#editProfileForm label{
+		margin-bottom:15px;
+	}
+	#editProfileForm input, textarea{
+		margin-right: 20px;
+		border-radius: 5px;
+		margin-bottom: 20px;
+		font-size: 14px;
+		height: 40px;
+		padding: 0 15px;
+		border: none;
+		box-shadow: 0 5px 10px #00000033;
+		width: 100%;
+	}
+	
+	</style>
+
+{% endblock %}
