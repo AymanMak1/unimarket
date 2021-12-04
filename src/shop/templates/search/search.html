@@ -14,22 +14,22 @@
         </ol>
       </nav>
       <div class="row">
-        {% for product in object_list%}
+        {% for product in object_list %}
         <div class="col-12 col-md-6 col-lg-4">
           <div class="card">
-            <img class="card-img-top" src="{{product.object.image.url}}" alt="">
+            <img class="card-img-top" src="{{product.image.url}}" alt="">
             <div class="card-body">
               <h4 class="card-title"><a href="{% url 'product' title=product.title %}"
                   title="View Product">{{product.title}}</a></h4>
               <p class="card-text"></p>
               <div class="row">
                 <div class="col">
-                  <p class="btn btn-danger btn-block">{{product.object.price|floatformat}} HUF</p>
+                  <p class="btn btn-danger btn-block">{{product.price|floatformat}} HUF</p>
                 </div>
                 <div class="col">
-                  <form action="{% url 'product' title=product.object.id %}" method="post">
+                  <form action="{% url 'product' title=product.id %}" method="post">
                     {% csrf_token %}
-                    <input class="form-control" type="hidden" value="{{product.object.id}}" name="product_id">
+                    <input class="form-control" type="hidden" value="{{product.id}}" name="product_id">
                     <input class="form-control" type="hidden" name="count" value="1">
                     <button type="submit" class="btn btn-success btn-block">Show</button>
                   </form>

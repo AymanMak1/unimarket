@@ -33,7 +33,11 @@
               <p class="price">{{product.price|floatformat}} HUF</p>
               <form action="" method="post">
                 {% csrf_token %}
-                <button value="reveal" type="submit" class="btn btn-success btn-lg btn-block">REVEAL CONTACTS</button>
+                {% if not is_author %}
+                <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal"
+                  data-target="#exampleModal" data-whatever="@mdo">Reveal
+                  Contacts</button>
+                {% endif %}
               </form>
               <div class="grid-form-actions">
                 {% csrf_token %}
@@ -42,8 +46,7 @@
                 {% if is_active %}
                 <form action="" method="get">
                   <input type="hidden" name="toggle" value="0" />
-                  <button type="submit"
-                          class="btn btn-outline-primary btn-rounded">
+                  <button type="submit" class="btn btn-outline-primary btn-rounded">
                     <div class="custom-control custom-switch">
                       <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
                       <label class="custom-control-label" for="customSwitch1">Active</label>
@@ -53,7 +56,7 @@
                 {%else%}
                 <form action="" method="get">
                   <input type="hidden" name="toggle" value="1" />
-                  <button type="submit">
+                  <button type="submit" class="btn btn-outline-primary btn-rounded">
                     <div class="custom-control custom-switch">
                       <input type="checkbox" class="custom-control-input" id="customSwitch1">
                       <label class="custom-control-label" for="customSwitch1">Disabled</label>
@@ -63,7 +66,7 @@
                 {% endif %}
                 <form action="" method="get">
                   <input type="hidden" name="delete" value="1" />
-                  <button type="submit"  class="btn btn-outline-danger">
+                  <button type="submit" class="btn btn-outline-danger">
                     Delete
                   </button>
                 </form>
@@ -90,18 +93,65 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Author Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">First name</label>
+            <textarea readonly class="form-control" id="message-text">{{ creator_first_name }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Last name</label>
+            <textarea readonly class="form-control" id="message-text">{{ creator_last_name }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Bio</label>
+            <textarea readonly class="form-control" id="message-text">{{ creator_bio }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Facebook</label>
+            <textarea readonly class="form-control" id="message-text">{{ creator_fb }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Phone</label>
+            <textarea readonly class="form-control" id="message-text">{{ creator_phone }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Email</label>
+            <textarea readonly class="form-control" id="message-text">{{ creator_email }}</textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
-  form{
-    margin-bottom:20px;
+  form {
+    margin-bottom: 20px;
   }
-  .grid-form-actions{
+
+  .grid-form-actions {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
-    grid-gap:20px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
   }
-  .grid-form-actions button{
-    width:100%;
+
+  .grid-form-actions button {
+    width: 100%;
   }
 </style>
 

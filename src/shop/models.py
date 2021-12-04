@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import related
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from mysite.settings import EMAIL_HOST_USER
@@ -86,7 +87,7 @@ class Carousel(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     bio = models.TextField()
     facebook = models.TextField()
     phone = models.TextField()

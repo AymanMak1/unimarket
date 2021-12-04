@@ -9,6 +9,10 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserForm, UpdateProfileForm
 from django.contrib import messages
+from django.db.models import CharField
+from django.db.models.functions import Lower
+
+CharField.register_lookup(Lower)
 
 
 def index(request):
@@ -103,6 +107,13 @@ def product(request, title):
     context["site_title"] = title
     context["is_author"] = request.user == product.author
     context["is_active"] = product.is_active
+    context["creator_first_name"] = product.author.first_name
+    context["creator_last_name"] = product.author.last_name
+    context["creator_bio"] = product.author.profile.bio
+    context["creator_fb"] = product.author.profile.facebook
+    context["creator_phone"] = product.author.profile.phone
+    context["creator_email"] = product.author.username
+    print(context)
     return render(request, "shop/product.html", context)
 
 
@@ -140,7 +151,8 @@ class MySearchView(SearchView):
         return queryset
 
     def get_context_data(self, *args, **kwargs):
-        context = super(MySearchView, self).get_context_data(*args, **kwargs)
+        context = {}
+        context["object_list"] = Goods.objects.filter(title__icontains=kwargs["query"])
         context["categories"] = Category.objects.filter(is_published=True)
         if "last_product" in self.request.session:
             try:
