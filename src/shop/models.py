@@ -100,14 +100,16 @@ class Profile(models.Model):
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
             code = generate_code(255)
-            send_activation_email(code, instance.username)
             Profile.objects.create(user=instance, code=code)
+            if not instance.is_superuser:
+                send_activation_email(code, instance.username)
+        else:
+            instance.profile.save()
+            
 
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
+
 
     @receiver(pre_save, sender=User)
     def pre_save_user(sender, instance, **kwargs):
-        if instance.id is None:
+        if instance.id is None and not instance.is_superuser:
             instance.is_active = False
